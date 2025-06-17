@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miyazaki Films Library - Studio Ghibli Collection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .header-title {
+            font-size: 3em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .header-subtitle {
+            font-size: 1.3em;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .search-filter {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-input {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1em;
+            width: 300px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .filter-select {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1em;
+            background: white;
+            cursor: pointer;
+        }
+
+        .films-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .film-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .film-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .film-poster {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .film-year {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .film-content {
+            padding: 25px;
+        }
+
+        .film-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .film-title-en {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .film-description {
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .film-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .film-rating {
+            background: #f39c12;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .film-duration {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .film-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: #ecf0f1;
+            color: #2c3e50;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            border: 1px solid #bdc3c7;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .stats-title {
+            font-size: 2em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .stat-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header fade-in">
+            <h1 class="header-title">🎬 Miyazaki Films Library</h1>
+            <p class="header-subtitle">Explore the Magical World of Studio Ghibli</p>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="search-filter fade-in">
+            <input type="text" class="search-input" placeholder="Search films..." id="searchInput">
+            <select class="filter-select" id="yearFilter">
+                <option value="">All Years</option>
+                <option value="1980s">1980s</option>
+                <option value="1990s">1990s</option>
+                <option value="2000s">2000s</option>
+                <option value="2010s">2010s</option>
+            </select>
+            <select class="filter-select" id="themeFilter">
+                <option value="">All Themes</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Family">Family</option>
+                <option value="Environmental">Environmental</option>
+            </select>
+        </div>
+
+        <!-- Films Grid -->
+        <div class="films-grid" id="filmsGrid">
+            <!-- Films will be populated by JavaScript -->
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-section fade-in">
+            <h2 class="stats-title">Collection Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">11</div>
+                    <div class="stat-label">Feature Films</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">40+</div>
+                    <div class="stat-label">Years Span</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8.5</div>
+                    <div class="stat-label">Avg Rating</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Magic Level</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Films data
+        const filmsData = [
+            {
+                title: "Spirited Away",
+                titleJp: "千と千尋の神隠し",
+                year: 2001,
+                decade: "2000s",
+                description: "A young girl enters a world ruled by gods and witches where humans are changed into beasts.",
+                rating: 9.3,
+                duration: "125 min",
+                tags: ["Adventure", "Fantasy", "Family"],
+                featured: true,
+                icon: "🐉",
+                image: "千与千寻.jpg"
+            },
+            {
+                title: "My Neighbor Totoro",
+                titleJp: "となりのトトロ",
+                year: 1988,
+                decade: "1980s",
+                description: "Two young daughters of a professor encounter forest spirits in postwar rural Japan.",
+                rating: 8.9,
+                duration: "86 min",
+                tags: ["Family", "Fantasy", "Adventure"],
+                featured: true,
+                icon: "🌳",
+                image: "龙猫.jpg"
+            },
+            {
+                title: "Princess Mononoke",
+                titleJp: "もののけ姫",
+                year: 1997,
+                decade: "1990s",
+                description: "A prince infected with a lethal curse sets off to find a cure and gets caught in a war.",
+                rating: 8.8,
+                duration: "134 min",
+                tags: ["Adventure", "Environmental", "Fantasy"],
+                featured: true,
+                icon: "🐺",
+                image: "幽灵公主.jpg"
+            },
+            {
+                title: "Howl's Moving Castle",
+                titleJp: "ハウルの動く城",
+                year: 2004,
+                decade: "2000s",
+                description: "A young woman is cursed with an old body by a spiteful witch.",
+                rating: 8.7,
+                duration: "119 min",
+                tags: ["Fantasy", "Adventure", "Romance"],
+                featured: false,
+                icon: "🏰",
+                image: "哈尔的移动城堡1.jpg"
+            },
+            {
+                title: "Castle in the Sky",
+                titleJp: "天空の城ラピュタ",
+                year: 1986,
+                decade: "1980s",
+                description: "A young boy and girl with a magic crystal must race against pirates to find a legendary floating castle.",
+                rating: 8.6,
+                duration: "125 min",
+                tags: ["Adventure", "Fantasy", "Family"],
+                featured: false,
+                icon: "☁️",
+                image: "天空之城.jpg"
+            },
+            {
+                title: "Kiki's Delivery Service",
+                titleJp: "魔女の宅急便",
+                year: 1989,
+                decade: "1980s",
+                description: "A young witch moves to a new town and uses her flying ability to earn a living.",
+                rating: 8.5,
+                duration: "103 min",
+                tags: ["Family", "Adventure", "Fantasy"],
+                featured: false,
+                icon: "🧙‍♀️",
+                image: "魔女宅急便.jpg"
+            },
+            {
+                title: "Ponyo",
+                titleJp: "崖の上のポニョ",
+                year: 2008,
+                decade: "2000s",
+                description: "A five-year-old boy develops a relationship with Ponyo, a young goldfish princess.",
+                rating: 8.3,
+                duration: "101 min",
+                tags: ["Family", "Fantasy", "Adventure"],
+                featured: false,
+                icon: "🐠",
+                image: "悬崖上的金鱼姬.jpg"
+            },
+            {
+                title: "The Wind Rises",
+                titleJp: "風立ちぬ",
+                year: 2013,
+                decade: "2010s",
+                description: "A look at the life of Jiro Horikoshi, the man who designed Japanese fighter planes during WWII.",
+                rating: 8.1,
+                duration: "126 min",
+                tags: ["Drama", "Biography", "Historical"],
+                featured: false,
+                icon: "✈️",
+                image: "起风了.jpg"
+            }
+        ];
+
+        // Render films
+        function renderFilms(films) {
+            const grid = document.getElementById('filmsGrid');
+            grid.innerHTML = '';
+
+            films.forEach(film => {
+                const filmCard = document.createElement('div');
+                filmCard.className = 'film-card fade-in';
+                filmCard.innerHTML = `
+                    <div class="film-poster" style="background: url('${film.image}') center/cover; position: relative;">
+                        ${film.featured ? '<div class="featured-badge">Featured</div>' : ''}
+                        <div class="film-year">${film.year}</div>
+                    </div>
+                    <div class="film-content">
+                        <h3 class="film-title">${film.title}</h3>
+                        <p class="film-title-en">${film.titleJp}</p>
+                        <p class="film-description">${film.description}</p>
+                        <div class="film-meta">
+                            <span class="film-rating">★ ${film.rating}</span>
+                            <span class="film-duration">${film.duration}</span>
+                        </div>
+                        <div class="film-tags">
+                            ${film.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(filmCard);
+            });
+        }
+
+        // Filter functions
+        function filterFilms() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const yearFilter = document.getElementById('yearFilter').value;
+            const themeFilter = document.getElementById('themeFilter').value;
+
+            let filteredFilms = filmsData.filter(film => {
+                const matchesSearch = film.title.toLowerCase().includes(searchTerm) ||
+                                    film.description.toLowerCase().includes(searchTerm);
+                const matchesYear = !yearFilter || film.decade === yearFilter;
+                const matchesTheme = !themeFilter || film.tags.includes(themeFilter);
+
+                return matchesSearch && matchesYear && matchesTheme;
+            });
+
+            renderFilms(filteredFilms);
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterFilms);
+        document.getElementById('yearFilter').addEventListener('change', filterFilms);
+        document.getElementById('themeFilter').addEventListener('change', filterFilms);
+
+        // Initial render
+        renderFilms(filmsData);
+
+        // Animation on scroll
+        window.addEventListener('scroll', () => {
+            const elements = document.querySelectorAll('.film-card');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('fade-in');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

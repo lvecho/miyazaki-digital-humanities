@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Information - Digital Humanities Final Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 50px 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .header-title {
+            font-size: 3.2em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .header-subtitle {
+            font-size: 1.4em;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 25px;
+        }
+
+        .project-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(253, 121, 168, 0.3);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            font-size: 2em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-icon {
+            font-size: 1.2em;
+            background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .tech-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #ecf0f1;
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            border-color: #fd79a8;
+            transform: scale(1.05);
+        }
+
+        .tech-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .tech-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .tech-description {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        .timeline {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .timeline-title {
+            font-size: 2.5em;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #fd79a8;
+        }
+
+        .timeline-phase {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #fd79a8;
+            min-width: 120px;
+            margin-right: 20px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-task {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .timeline-description {
+            color: #7f8c8d;
+            font-size: 0.95em;
+        }
+
+        .achievements {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .achievements-title {
+            font-size: 2.5em;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .achievement-card {
+            background: linear-gradient(135deg, #fd79a8, #fdcb6e);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(253, 121, 168, 0.3);
+        }
+
+        .achievement-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .achievement-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .achievement-description {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .contact-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .contact-title {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .contact-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border: 2px solid #ecf0f1;
+        }
+
+        .contact-label {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .contact-value {
+            color: #7f8c8d;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header fade-in" style="background: rgba(255, 255, 255, 0.95) url('宫崎骏.jpg') no-repeat right center; background-size: 150px; background-blend-mode: soft-light;">
+            <h1 class="header-title">📚 Project Information</h1>
+            <p class="header-subtitle">Digital Humanities Final Project</p>
+            <div class="project-badge">Miyazaki Hayao: Animation & Digital Analysis</div>
+        </div>
+
+        <!-- Project Overview -->
+        <div class="content-grid">
+            <div class="content-card slide-in">
+                <h2 class="card-title">
+                    <span class="card-icon">🎯</span>
+                    Project Objectives
+                </h2>
+                <p>This digital humanities project explores the intersection of traditional Japanese animation and modern computational analysis techniques. Our primary objectives include:</p>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li>Analyzing narrative structures in Miyazaki's films using NLP</li>
+                    <li>Visualizing character relationships and thematic elements</li>
+                    <li>Creating an interactive digital archive of Studio Ghibli works</li>
+                    <li>Demonstrating the value of computational methods in film studies</li>
+                </ul>
+            </div>
+
+            <div class="content-card slide-in">
+                <h2 class="card-title">
+                    <span class="card-icon">🔬</span>
+                    Research Methodology
+                </h2>
+                <p>Our interdisciplinary approach combines traditional film analysis with cutting-edge digital tools:</p>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li><strong>Text Mining:</strong> Screenplay analysis using Python NLP libraries</li>
+                    <li><strong>Data Visualization:</strong> Interactive charts and network graphs</li>
+                    <li><strong>Sentiment Analysis:</strong> Emotional arc mapping throughout films</li>
+                    <li><strong>Web Development:</strong> Creating accessible digital presentations</li>
+                </ul>
+            </div>
+
+            <div class="content-card slide-in">
+                <h2 class="card-title">
+                    <span class="card-icon">📖</span>
+                    Academic Context
+                </h2>
+                <p>This project contributes to the growing field of digital humanities by:</p>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li>Bridging Eastern and Western analytical traditions</li>
+                    <li>Applying computational methods to visual storytelling</li>
+                    <li>Creating replicable methodologies for film analysis</li>
+                    <li>Demonstrating the cultural significance of animation as literature</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Course:</strong> Digital Humanities Methods and Applications<br>
+                <strong>Institution:</strong> University Digital Studies Program<br>
+                <strong>Semester:</strong> Fall 2024</p>
+            </div>
+
+            <div class="content-card slide-in">
+                <h2 class="card-title">
+                    <span class="card-icon">🏆</span>
+                    Expected Outcomes
+                </h2>
+                <p>Upon completion, this project will deliver:</p>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li>A comprehensive digital archive of Miyazaki's major works</li>
+                    <li>Quantitative analysis of narrative and thematic patterns</li>
+                    <li>Interactive visualizations accessible to general audiences</li>
+                    <li>A replicable framework for analyzing animated films</li>
+                    <li>Scholarly contributions to animation and digital humanities studies</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="content-card full-width fade-in">
+            <h2 class="card-title">
+                <span class="card-icon">⚙️</span>
+                Technology Stack
+            </h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <div class="tech-icon">🐍</div>
+                    <div class="tech-name">Python</div>
+                    <div class="tech-description">Data analysis & NLP processing</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🌐</div>
+                    <div class="tech-name">HTML/CSS/JS</div>
+                    <div class="tech-description">Interactive web interface</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📊</div>
+                    <div class="tech-name">D3.js</div>
+                    <div class="tech-description">Data visualization</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🔗</div>
+                    <div class="tech-name">Wix Platform</div>
+                    <div class="tech-description">Website deployment</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📚</div>
+                    <div class="tech-name">NLTK/spaCy</div>
+                    <div class="tech-description">Natural language processing</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🎨</div>
+                    <div class="tech-name">Matplotlib</div>
+                    <div class="tech-description">Statistical visualization</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Timeline -->
+        <div class="timeline fade-in">
+            <h2 class="timeline-title">Project Development Timeline</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-phase">Phase 1</div>
+                <div class="timeline-content">
+                    <div class="timeline-task">Research & Data Collection</div>
+                    <div class="timeline-description">Gathering Miyazaki filmography, screenplays, and establishing research framework</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-phase">Phase 2</div>
+                <div class="timeline-content">
+                    <div class="timeline-task">Text Analysis & Processing</div>
+                    <div class="timeline-description">Implementing NLP algorithms, sentiment analysis, and character network mapping</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-phase">Phase 3</div>
+                <div class="timeline-content">
+                    <div class="timeline-task">Visualization Development</div>
+                    <div class="timeline-description">Creating interactive charts, word clouds, and network diagrams</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-phase">Phase 4</div>
+                <div class="timeline-content">
+                    <div class="timeline-task">Web Platform Creation</div>
+                    <div class="timeline-description">Building responsive website with integrated analysis tools</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-phase">Phase 5</div>
+                <div class="timeline-content">
+                    <div class="timeline-task">Testing & Deployment</div>
+                    <div class="timeline-description">User testing, performance optimization, and final deployment</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="achievements fade-in">
+            <h2 class="achievements-title">Project Achievements</h2>
+            <div class="achievement-grid">
+                <div class="achievement-card">
+                    <div class="achievement-icon">🎬</div>
+                    <div class="achievement-title">Complete Film Database</div>
+                    <div class="achievement-description">Comprehensive digital archive of 11 major Miyazaki films with detailed metadata</div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">📊</div>
+                    <div class="achievement-title">Advanced Analytics</div>
+                    <div class="achievement-description">Sophisticated text analysis revealing narrative patterns and thematic structures</div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">🌐</div>
+                    <div class="achievement-title">Interactive Platform</div>
+                    <div class="achievement-description">User-friendly web interface making complex analysis accessible to all audiences</div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">🔬</div>
+                    <div class="achievement-title">Methodological Innovation</div>
+                    <div class="achievement-description">Novel application of digital humanities methods to animation studies</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="contact-section fade-in">
+            <h2 class="contact-title">Project Information</h2>
+            <p style="margin-bottom: 30px; font-size: 1.1em; color: #7f8c8d;">
+                This project represents the culmination of a semester-long exploration into digital humanities methodologies, 
+                specifically applied to the analysis of Miyazaki Hayao's animated films.
+            </p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-label">Course</div>
+                    <div class="contact-value">Digital Humanities Methods</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Semester</div>
+                    <div class="contact-value">Fall 2024</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Focus Area</div>
+                    <div class="contact-value">Animation & Film Studies</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Methodology</div>
+                    <div class="contact-value">Computational Text Analysis</div>
+                </div>
+            </div>
+
+            <p style="margin-top: 30px; font-style: italic; color: #7f8c8d;">
+                "The creation of a single world comes from a huge number of fragments and chaos." — Miyazaki Hayao
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Add animation on scroll
+        window.addEventListener('scroll', () => {
+            const elements = document.querySelectorAll('.content-card, .timeline-item, .achievement-card');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('fade-in');
+                }
+            });
+        });
+
+        // Add hover effects to tech items
+        document.querySelectorAll('.tech-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.background = 'linear-gradient(45deg, #fd79a8, #fdcb6e)';
+                item.style.color = 'white';
+                item.style.transform = 'scale(1.05) translateY(-5px)';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.background = '#f8f9fa';
+                item.style.color = '#2c3e50';
+                item.style.transform = 'scale(1) translateY(0)';
+            });
+        });
+
+        // Add click animation to achievement cards
+        document.querySelectorAll('.achievement-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    card.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>
